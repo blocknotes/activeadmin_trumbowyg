@@ -1,0 +1,1 @@
+require 'activeadmin/trumbowyg/engine'
