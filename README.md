@@ -18,6 +18,7 @@ An Active Admin plugin to use [Trumbowyg Editor](https://alex-d.github.io/Trumbo
 //= require activeadmin/trumbowyg_input
 ```
 - Use the input with `as: :trumbowyg` in Active Admin model conf
+- To fix icons in production execute the task: `rake trumbowyg:nondigest` (or `rails trumbowyg:nondigest` for Rails 5.x)
 
 Why 2 separated scripts? In this way you can include a different version of *trumbowyg editor* if you like.
 
