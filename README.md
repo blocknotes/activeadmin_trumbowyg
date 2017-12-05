@@ -26,6 +26,12 @@ Why 2 separated scripts? In this way you can include a different version of *tru
 
 **data-options**: permits to set *trumbowyg editor* options directly - see [options list](https://alex-d.github.io/Trumbowyg/documentation/)
 
+## Notes
+
+Currently there are minor issues with some Trumbowyg buttons (refer to the project page):
+- *deleted text*: can't be unset from toolbar, but it works with Undo
+- *superscript*, *subscript*: can't be unset from toolbar (in Chrome), but it works with Undo
+
 ## Examples
 
 Form config (example model Article):
