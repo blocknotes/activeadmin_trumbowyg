@@ -38,6 +38,7 @@
       height: 27px;
       width: 27px;
       background: inherit;
+      background-image: none;
       border: 1px solid #FFF;
       box-shadow: #000 0 0 2px;
       z-index: 10; }
