@@ -27,7 +27,8 @@
     border: 1px solid #333;
     padding: 0;
     margin: 2px; }
-    .trumbowyg-dropdown-foreColor button:hover::after, .trumbowyg-dropdown-foreColor button:focus::after,
+    .trumbowyg-dropdown-foreColor button:hover::after,
+    .trumbowyg-dropdown-foreColor button:focus::after,
     .trumbowyg-dropdown-backColor button:hover::after,
     .trumbowyg-dropdown-backColor button:focus::after {
       content: " ";
