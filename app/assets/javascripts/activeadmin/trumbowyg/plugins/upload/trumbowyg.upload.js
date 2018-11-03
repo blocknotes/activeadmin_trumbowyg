@@ -23,7 +23,8 @@
         urlPropertyName: 'file',        // How to get url from the json response (for instance 'url' for {url: ....})
         statusPropertyName: 'success',  // How to get status from the json response 
         success: undefined,             // Success callback: function (data, trumbowyg, $modal, values) {}
-        error: undefined                // Error callback: function () {}
+        error: undefined,               // Error callback: function () {}
+        imageWidthModalEdit: false      // Add ability to edit image width
     };
 
     function getDeep(object, propertyParts) {
@@ -52,6 +53,11 @@
                 file: 'File',
                 uploadError: 'Error'
             },
+            da: {
+                upload: 'Upload',
+                file: 'Fil',
+                uploadError: 'Fejl'
+            },
             sk: {
                 upload: 'Nahrať',
                 file: 'Súbor',
@@ -76,7 +82,7 @@
                 upload: '上傳',
                 file: '文件',
                 uploadError: '錯誤'
-            },            
+            },
             ru: {
                 upload: 'Загрузка',
                 file: 'Файл',
@@ -92,6 +98,11 @@
                 file: 'Arquivo',
                 uploadError: 'Erro'
             },
+            tr: {
+                upload: 'Yükle',
+                file: 'Dosya',
+                uploadError: 'Hata'
+            }
         },
         // jshint camelcase:true
 
@@ -106,24 +117,32 @@
                             var file,
                                 prefix = trumbowyg.o.prefix;
 
+                            var fields = {
+                                file: {
+                                    type: 'file',
+                                    required: true,
+                                    attributes: {
+                                        accept: 'image/*'
+                                    }
+                                },
+                                alt: {
+                                    label: 'description',
+                                    value: trumbowyg.getRangeText()
+                                }
+                            };
+
+                            if (trumbowyg.o.plugins.upload.imageWidthModalEdit) {
+                                fields.width = {
+                                    value: ''
+                                };
+                            }
+
                             var $modal = trumbowyg.openModalInsert(
                                 // Title
                                 trumbowyg.lang.upload,
 
                                 // Fields
-                                {
-                                    file: {
-                                        type: 'file',
-                                        required: true,
-                                        attributes: {
-                                            accept: 'image/*'
-                                        }
-                                    },
-                                    alt: {
-                                        label: 'description',
-                                        value: trumbowyg.getRangeText()
-                                    }
-                                },
+                                fields,
 
                                 // Callback
                                 function (values) {
@@ -133,9 +152,9 @@
                                     trumbowyg.o.plugins.upload.data.map(function (cur) {
                                         data.append(cur.name, cur.value);
                                     });
-                                    
-                                    $.map(values, function(curr, key){
-                                        if(key !== 'file') { 
+
+                                    $.map(values, function (curr, key) {
+                                        if (key !== 'file') {
                                             data.append(key, curr);
                                         }
                                     });
@@ -175,7 +194,13 @@
                                                 if (!!getDeep(data, trumbowyg.o.plugins.upload.statusPropertyName.split('.'))) {
                                                     var url = getDeep(data, trumbowyg.o.plugins.upload.urlPropertyName.split('.'));
                                                     trumbowyg.execCmd('insertImage', url);
-                                                    $('img[src="' + url + '"]:not([alt])', trumbowyg.$box).attr('alt', values.alt);
+                                                    var $img = $('img[src="' + url + '"]:not([alt])', trumbowyg.$box);
+                                                    $img.attr('alt', values.alt);
+                                                    if (trumbowyg.o.imageWidthModalEdit && parseInt(values.width) > 0) {
+                                                        $img.attr({
+                                                            width: values.width
+                                                        });
+                                                    }
                                                     setTimeout(function () {
                                                         trumbowyg.closeModal();
                                                     }, 250);
@@ -218,7 +243,6 @@
             }
         }
     });
-
 
     function addXhrProgressEvent() {
         if (!$.trumbowyg.addedXhrProgressEvent) {   // Avoid adding progress event multiple times
