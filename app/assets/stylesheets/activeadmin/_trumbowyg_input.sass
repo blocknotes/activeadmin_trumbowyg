@@ -8,11 +8,13 @@ body.active_admin form .trumbowyg-box
   display: inline-block
   width: calc(80% - 22px)
   button
-    background-color: transparent
+    background: transparent
+    border-radius: 0;
+    box-shadow: none;
     color: #222
     text-shadow: none
-    &:hover, &.trumbowyg-active, &.trumbowyg-active-button
-      background-color: #fff
+    // &:hover, &.trumbowyg-active, &.trumbowyg-active-button
+    //   background: transparent
   textarea
     border: 0 none
     display: block
