@@ -19,6 +19,7 @@
 
     $.extend(true, $.trumbowyg, {
         langs: {
+            // jshint camelcase:false
             en: {
                 noembed: 'Noembed',
                 noembedError: 'Error'
@@ -48,6 +49,15 @@
                 noembed: '插入影片',
                 noembedError: '錯誤'
             },
+            pt_br: {
+                noembed: 'Incorporar',
+                noembedError: 'Erro'
+            },
+            ko: {
+                noembed: 'oEmbed 넣기',
+                noembedError: '에러'
+            },
+            // jshint camelcase:true
         },
 
         plugins: {

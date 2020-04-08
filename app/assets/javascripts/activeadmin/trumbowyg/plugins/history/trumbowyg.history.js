@@ -10,6 +10,7 @@
     'use strict';
     $.extend(true, $.trumbowyg, {
         langs: {
+            // jshint camelcase:false
             de: {
                 history: {
                     redo: 'Wiederholen',
@@ -39,7 +40,20 @@
                    redo: '重做',
                    undo: '復原'
                }
-            }
+            },
+            pt_br: {
+                history: {
+                    redo: 'Refazer',
+                    undo: 'Desfazer'
+                }
+            },
+            ko: {
+                history: {
+                    redo: '다시 실행',
+                    undo: '되돌리기'
+                }
+            },
+            // jshint camelcase:true
         },
         plugins: {
             history: {
@@ -129,7 +143,7 @@
                                 t.o.plugins.history._stack = stack.slice(
                                     0, t.o.plugins.history._index
                                 );
-                                // now add new state to modifed history
+                                // now add new state to modified history
                                 t.o.plugins.history._stack.push(newState);
                             } else {
                                 // modify last stack entry
