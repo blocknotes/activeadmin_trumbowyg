@@ -7,10 +7,9 @@ An Active Admin plugin to use [Trumbowyg Editor](https://alex-d.github.io/Trumbo
 ## Install
 
 - Update your Gemfile: `gem 'activeadmin_trumbowyg'` (and execute *bundle*)
-- Or with ActiveAdmin 2 alpha: `gem 'activeadmin_trumbowyg', git: 'https://github.com/blocknotes/activeadmin_trumbowyg', branch: 'aa2'`
 - Add at the end of your ActiveAdmin styles (_app/assets/stylesheets/active_admin.scss_):
 ```css
-@import 'activeadmin/trumbowyg/ui/sass/trumbowyg';
+@import 'activeadmin/trumbowyg/trumbowyg';
 @import 'activeadmin/trumbowyg_input';
 ```
 - Add at the end of your ActiveAdmin javascripts (_app/assets/javascripts/active_admin.js_):
@@ -29,9 +28,7 @@ Why 2 separated scripts? In this way you can include a different version of *tru
 
 ## Notes
 
-Currently there are minor issues with some Trumbowyg buttons (refer to the project page):
-- *deleted text*: can't be unset from toolbar, but it works with Undo
-- *superscript*, *subscript*: can't be unset from toolbar (in Chrome), but it works with Undo
+To use this plugins with ActiveAdmin 1.x please use the version 0.1.8
 
 ## Examples
 
@@ -85,7 +82,7 @@ Take a look at [other ActiveAdmin components](https://github.com/blocknotes?utf8
 
 ## Contributors
 
-- [Mattia Roccoberton](http://blocknot.es) - creator, maintainer
+- [Mattia Roccoberton](http://blocknot.es): author
 
 ## License
 
