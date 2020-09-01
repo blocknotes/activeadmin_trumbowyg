@@ -1,4 +1,4 @@
-# ActiveAdmin Trumbowyg [![Gem Version](https://badge.fury.io/rb/activeadmin_trumbowyg.svg)](https://badge.fury.io/rb/activeadmin_trumbowyg)
+# ActiveAdmin Trumbowyg [![Gem Version](https://badge.fury.io/rb/activeadmin_trumbowyg.svg)](https://badge.fury.io/rb/activeadmin_trumbowyg) [![CircleCI](https://circleci.com/gh/blocknotes/activeadmin_trumbowyg.svg?style=svg)](https://circleci.com/gh/blocknotes/activeadmin_trumbowyg)
 
 An Active Admin plugin to use [Trumbowyg Editor](https://alex-d.github.io/Trumbowyg/)
 
@@ -21,6 +21,8 @@ An Active Admin plugin to use [Trumbowyg Editor](https://alex-d.github.io/Trumbo
 - To fix icons in production execute the task: `rake trumbowyg:nondigest` (or `rails trumbowyg:nondigest` for Rails 5.x)
 
 Why 2 separated scripts? In this way you can include a different version of *trumbowyg editor* if you like.
+
+> **UPDATE FROM VERSION < 2.0**: please change the Trumbowyg line in your _app/assets/stylesheets/active_admin.scss_ to: `@import 'activeadmin/trumbowyg/trumbowyg';`
 
 ## Options
 
