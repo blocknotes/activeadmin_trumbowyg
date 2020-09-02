@@ -60,19 +60,22 @@ Add to *active_admin.js* (after *trumbowyg* require):
 Form field config (example model Article):
 
 ```ruby
-f.input :description, as: :trumbowyg, input_html: { data: { options: { btns: [['bold', 'italic'], ['link'], ['upload']], plugins: { upload: { serverPath: upload_admin_article_path(resource.id), fileFieldName: 'file_upload' } } } } }
+unless resource.new_record?
+  f.input :description, as: :trumbowyg, input_html: { data: { options: { btns: [['bold', 'italic'], ['link'], ['upload']], plugins: { upload: { serverPath: upload_admin_post_path(resource.id), fileFieldName: 'file_upload' } } } } }
+end
 ```
 
-Form method:
+Upload method (using ActiveStorage):
 
 ```ruby
 member_action :upload, method: [:post] do
-  response = nil
-  resource.cover = params[:file_upload]
-  response = resource.save ? { success: '1', file: resource.cover.url } : { success: '0' }
-  render json: response
+  result = { success: resource.images.attach(params[:file_upload]) }
+  result[:file] = url_for(resource.images.last) if result[:success]
+  render json: result
 end
 ```
+
+For the relevant files of this upload example see [here](examples/upload_plugin_using_activestorage/). Consider that this is just a basic example: it shows the editor only for an existing record (because of the *upload_admin_post_path*) and it doesn't provide a way to remove images (just deleting them from the editor will not destroy them, you'll need to implement a purge logic for that).
 
 ## Do you like it? Star it!
 If you use this component just star it. A developer is more motivated to improve a project when there is some interest.
