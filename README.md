@@ -2,10 +2,9 @@
 
 An Active Admin plugin to use [Trumbowyg Editor](https://alex-d.github.io/Trumbowyg/)
 
-![screenshot](screenshot.jpg)
+![screenshot](screenshot.png)
 
 ## Install
-
 - Update your Gemfile: `gem 'activeadmin_trumbowyg'` (and execute *bundle*)
 - Add at the end of your ActiveAdmin styles (_app/assets/stylesheets/active_admin.scss_):
 ```css
@@ -25,15 +24,12 @@ Why 2 separated scripts? In this way you can include a different version of *tru
 > **UPDATE FROM VERSION < 2.0**: please change the Trumbowyg line in your _app/assets/stylesheets/active_admin.scss_ to: `@import 'activeadmin/trumbowyg/trumbowyg';`
 
 ## Options
-
 **data-options**: permits to set *trumbowyg editor* options directly - see [options list](https://alex-d.github.io/Trumbowyg/documentation/)
 
 ## Notes
-
-To use this plugins with ActiveAdmin 1.x please use the version 0.1.8
+To use this plugins with *ActiveAdmin 1.x* please use the version [0.1.8](https://github.com/blocknotes/activeadmin_trumbowyg/releases/tag/v0.1.8)
 
 ## Examples
-
 Form config (example model Article):
 
 ```ruby
@@ -54,10 +50,7 @@ f.input :description, as: :trumbowyg, input_html: {data: {options: {btns: [['bol
 ```
 
 ### Example with upload plugin
-
-Add to *active_admin.js* (after *trumbowyg* require):
-
-`//= require activeadmin/trumbowyg/plugins/upload/trumbowyg.upload`
+Add to *active_admin.js* (after *trumbowyg* require): `//= require activeadmin/trumbowyg/plugins/upload/trumbowyg.upload`
 
 Form field config (example model Article):
 
@@ -77,15 +70,12 @@ end
 ```
 
 ## Do you like it? Star it!
-
 If you use this component just star it. A developer is more motivated to improve a project when there is some interest.
 
 Take a look at [other ActiveAdmin components](https://github.com/blocknotes?utf8=✓&tab=repositories&q=activeadmin&type=source) that I made if you are curious.
 
 ## Contributors
-
 - [Mattia Roccoberton](http://blocknot.es): author
 
 ## License
-
-[MIT](LICENSE.txt)
+The gem is available as open source under the terms of the [MIT](LICENSE.txt).
