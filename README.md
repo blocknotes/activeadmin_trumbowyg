@@ -2,6 +2,11 @@
 
 An *Active Admin* plugin to use [Trumbowyg](https://alex-d.github.io/Trumbowyg/) as WYSIWYG editor in form inputs.
 
+Features:
+- automatically includes a fast & lightweight rich editor in Active Admin;
+- customizable options via data attributes in the form input;
+- plugins included, like images upload.
+
 ![screenshot](screenshot.png)
 
 ## Install
@@ -36,8 +41,8 @@ end
 ```
 
 ## Notes
-- **data-options** permits to set *trumbowyg editor* options directly; some examples below. For reference see [options list](https://alex-d.github.io/Trumbowyg/documentation/).
--  Why 2 separated scripts/style files? To allow to include different versions of *trumbowyg editor* if needed.
+- **data-options** permits to set *Trumbowyg editor* options directly; some examples below. For reference see [options list](https://alex-d.github.io/Trumbowyg/documentation/).
+-  Why 2 separated scripts/style files? To allow to include different versions of *Trumbowyg editor* if needed.
 - To use this plugins with *Active Admin 1.x* please use the version [0.1.8](https://github.com/blocknotes/activeadmin_trumbowyg/releases/tag/v0.1.8)
 
 ## Examples
@@ -75,7 +80,7 @@ member_action :upload, method: [:post] do
 end
 ```
 
-For the relevant files of this upload example see [here](examples/upload_plugin_using_activestorage/). Consider that this is just a basic example: it shows the editor only for an existing record (because of the *upload_admin_post_path*) and it doesn't provide a way to remove images (just deleting them from the editor will not destroy them, you'll need to implement a purge logic for that).
+For the relevant files of this upload example see [here](examples/upload_plugin_using_activestorage/). Consider that this is just a basic example: images are uploaded as soon as they are attached to the editor (regardless of the form submit), it shows the editor only for an existing record (because of the *upload_admin_post_path*) and it doesn't provide a way to remove images (just deleting them from the editor will not destroy them, you'll need to implement a purge logic for that).
 
 ## Do you like it? Star it!
 If you use this component just star it. A developer is more motivated to improve a project when there is some interest.
@@ -87,4 +92,4 @@ Take a look at [other Active Admin components](https://github.com/blocknotes?utf
 - The good developers that opened issues and pull requests from time to time
 
 ## License
-The gem is available as open source under the terms of the [MIT](LICENSE.txt).
+The gem is available as open-source under the terms of the [MIT](LICENSE.txt).
