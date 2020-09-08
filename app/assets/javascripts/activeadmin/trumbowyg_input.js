@@ -1,20 +1,22 @@
-function initTrumbowygEditors() {
-  $('.trumbowyg-textarea').each(function () {
-    if (!$(this).hasClass('trumbowyg-textarea--active')) {
-      var options = {
-        svgPath: '/assets/trumbowyg/icons.svg'
-      };
-      options = $.extend({}, options, $(this).data('options'));
-      $(this).trumbowyg(options);
-      $(this).addClass('trumbowyg-textarea--active');
-    }
-  });
-}
+(function () {
+  function initTrumbowygEditors() {
+    $('[data-aa-trumbowyg]').each(function () {
+      if (!$(this).hasClass('trumbowyg-textarea--active')) {
+        let options = {
+          svgPath: '/assets/trumbowyg/icons.svg'
+        }
+        options = $.extend({}, options, $(this).data('options'))
+        $(this).trumbowyg(options)
+        $(this).addClass('trumbowyg-textarea--active')
+      }
+    })
+  }
 
-$(document).on('has_many_add:after', function () {
-  initTrumbowygEditors();
-});
+  $(document).ready(() => {
+    initTrumbowygEditors()
+  })
 
-$(document).ready(function () {
-  initTrumbowygEditors();
-});
+  $(document).on('has_many_add:after', '.has_many_container', () => {
+    initTrumbowygEditors()
+  })
+})()
