@@ -89,7 +89,7 @@ Take a look at [other Active Admin components](https://github.com/blocknotes?utf
 
 ## Contributors
 - [Mattia Roccoberton](http://blocknot.es): author
-- The good developers that opened issues and pull requests from time to time
+- The good guys that opened issues and pull requests from time to time
 
 ## License
 The gem is available as open-source under the terms of the [MIT](LICENSE.txt).
