@@ -23,19 +23,17 @@ body.active_admin {
     >.trumbowyg-editor {
       background-color: #fff;
 
-      // reset internal elements
-      * {
+      li {
         margin: initial;
         padding: initial;
-        text-align: initial;
-      }
-
-      p {
-        margin-bottom: 1em;
       }
 
       ol {
         list-style-type: decimal;
+      }
+
+      p {
+        margin-bottom: 1em;
       }
 
       ul {
