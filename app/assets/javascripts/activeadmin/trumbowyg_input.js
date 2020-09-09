@@ -1,4 +1,6 @@
 (function () {
+  'use strict'
+
   function initTrumbowygEditors() {
     $('[data-aa-trumbowyg]').each(function () {
       if (!$(this).hasClass('trumbowyg-textarea--active')) {
