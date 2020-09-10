@@ -30,10 +30,11 @@ ActiveAdmin.register Post do
   end
 
   form do |f|
+    buttons = %w[bold italic underline link]
     f.inputs 'Post' do
       f.input :author
       f.input :title
-      f.input :description, as: :trumbowyg
+      f.input :description, as: :trumbowyg, input_html: { data: { options: { btns: buttons } } }
       f.input :category
       f.input :dt
       f.input :position

@@ -17,6 +17,10 @@ RSpec.describe 'Trumbowyg editor', type: :system do
     it 'updates some HTML content' do
       visit "/admin/posts/#{post.id}/edit"
 
+      %w[bold italic underline link].each do |button|
+        expect(page).to have_css(".trumbowyg button.trumbowyg-#{button}-button")
+      end
+      expect(page).to have_css('#post_description[data-aa-trumbowyg]', visible: :hidden)
       expect(page).to have_css('#post_description_input .trumbowyg-editor', text: 'Some content...')
       find('#post_description_input .trumbowyg-editor').base.send_keys('more text')
 
