@@ -14,11 +14,7 @@
     })
   }
 
-  $(document).ready(() => {
-    initTrumbowygEditors()
-  })
-
-  $(document).on('has_many_add:after', '.has_many_container', () => {
-    initTrumbowygEditors()
-  })
+  $(document).ready(initTrumbowygEditors)
+  $(document).on('has_many_add:after', '.has_many_container', initTrumbowygEditors)
+  $(document).on('turbolinks:load', initTrumbowygEditors)
 })()
