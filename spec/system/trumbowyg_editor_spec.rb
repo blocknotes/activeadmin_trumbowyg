@@ -9,24 +9,39 @@ RSpec.describe 'Trumbowyg editor', type: :system do
   end
 
   after do
-    Post.destroy_all
-    author.destroy
+    Post.delete_all
+    author.delete
   end
 
   context 'with a Trumbowyg editor' do
-    it 'updates some HTML content' do
+    it 'initialize the editor' do
       visit "/admin/posts/#{post.id}/edit"
 
-      %w[bold italic underline link].each do |button|
+      %w[bold italic underline link justifyRight].each do |button|
         expect(page).to have_css(".trumbowyg button.trumbowyg-#{button}-button")
       end
       expect(page).to have_css('#post_description[data-aa-trumbowyg]', visible: :hidden)
       expect(page).to have_css('#post_description_input .trumbowyg-editor', text: 'Some content...')
-      find('#post_description_input .trumbowyg-editor').base.send_keys('more text')
+    end
 
+    it 'adds some text to the description' do
+      visit "/admin/posts/#{post.id}/edit"
+
+      find('#post_description_input .trumbowyg-editor').base.send_keys('more text')
       find('[type="submit"]').click
+
       expect(page).to have_content('was successfully updated')
       expect(post.reload.description).to eq '<p>Some content...more text</p>'
+    end
+
+    it 'adds right aligned text to the description' do
+      visit "/admin/posts/#{post.id}/edit"
+
+      find('#post_description_input .trumbowyg-button-pane .trumbowyg-justifyRight-button').click
+      find('[type="submit"]').click
+
+      expect(page).to have_content('was successfully updated')
+      expect(post.reload.description).to match /text-align: right.*Some content/
     end
   end
 

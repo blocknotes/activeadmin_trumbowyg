@@ -30,7 +30,7 @@ ActiveAdmin.register Post do
   end
 
   form do |f|
-    buttons = %w[bold italic underline link]
+    buttons = %w[bold italic underline link justifyRight]
     f.inputs 'Post' do
       f.input :author
       f.input :title
