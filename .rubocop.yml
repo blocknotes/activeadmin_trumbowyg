@@ -4,7 +4,9 @@ inherit_from:
 AllCops:
   Exclude:
     - bin/*
+    - db/schema.rb
     - spec/dummy/**/*
+    - vendor/**/*
   NewCops: enable
 
 Gemspec/RequiredRubyVersion:
