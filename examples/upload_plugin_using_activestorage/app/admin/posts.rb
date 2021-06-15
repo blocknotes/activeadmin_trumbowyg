@@ -36,11 +36,15 @@ ActiveAdmin.register Post do
   end
 
   form do |f|
+    options = {
+      btns: [['bold', 'italic'], ['link'], ['upload']],
+      plugins: { upload: { serverPath: upload_admin_post_path(resource.id), fileFieldName: 'file_upload' } }
+    }
     f.inputs 'Post' do
       f.input :title
       f.input :published
       unless resource.new_record?
-        f.input :description, as: :trumbowyg, input_html: { data: { options: { btns: [['bold', 'italic'], ['link'], ['upload']], plugins: { upload: { serverPath: upload_admin_post_path(resource.id), fileFieldName: 'file_upload' } } } } }
+        f.input :description, as: :trumbowyg, input_html: { data: { options: options } }
       end
     end
     f.actions
