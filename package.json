@@ -1,6 +1,6 @@
 {
   "name": "activeadmin_trumbowyg",
-  "version": "0.2.12",
+  "version": "0.2.14",
   "description": "An Active Admin plugin to use Trumbowyg as WYSIWYG editor in form inputs.",
   "main": "index.js",
   "repository": "https://github.com/blocknotes/activeadmin_trumbowyg",
