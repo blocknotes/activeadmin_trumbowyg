@@ -2,6 +2,6 @@
 
 module ActiveAdmin
   module Trumbowyg
-    VERSION = '0.2.14'
+    VERSION = '0.2.16'
   end
 end
