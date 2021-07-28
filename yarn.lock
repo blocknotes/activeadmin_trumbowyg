@@ -3,6 +3,6 @@
 
 
 trumbowyg@^2.25.0:
-  version "2.25.0"
-  resolved "https://registry.yarnpkg.com/trumbowyg/-/trumbowyg-2.25.0.tgz#5d79ccc48fead1da923c9022204ad2bffd9a3ba5"
-  integrity sha512-Ama8odYLdI4/G/GosGVuL796Of03BpvfwoXYIBbkiiJ/9ADh3HJ0nAfjTWoyXfCmOab+u/baML4vdWvy+sgkeQ==
+  version "2.25.1"
+  resolved "https://registry.yarnpkg.com/trumbowyg/-/trumbowyg-2.25.1.tgz#fa77b5a9c49875017d437f4d62a35b7da7ca560d"
+  integrity sha512-bmmV1qC+fTLfyVpLE5iZjCzHG5DfAwM7p8K2fdq6L1kOi+IrVJk/qGFVEEmYyJ0Ofd1z3g2vavfABpmkVLzV6A==
