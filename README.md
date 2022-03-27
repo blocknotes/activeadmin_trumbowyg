@@ -2,7 +2,9 @@
 [![gem version](https://badge.fury.io/rb/activeadmin_trumbowyg.svg)](https://badge.fury.io/rb/activeadmin_trumbowyg)
 [![gem downloads](https://badgen.net/rubygems/dt/activeadmin_trumbowyg)](https://rubygems.org/gems/activeadmin_trumbowyg)
 [![linters](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml)
-[![specs](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs.yml)
+[![specs Rails 6.0](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails60.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails60.yml)
+[![specs Rails 6.1](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails61.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails61.yml)
+[![specs Rails 7.0](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails70.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails70.yml)
 
 An *Active Admin* plugin to use [Trumbowyg](https://alex-d.github.io/Trumbowyg/) as WYSIWYG editor in form inputs.
 
