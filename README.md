@@ -17,6 +17,7 @@ Please :star: if you like it.
 
 ## Install
 
+- Add a SASS/SCSS gem to your Gemfile (ex. `gem 'sassc'`)
 - After installing Active Admin, add to your Gemfile: `gem 'activeadmin_trumbowyg'` (and execute *bundle*)
 - Add at the end of your Active Admin styles (_app/assets/stylesheets/active_admin.scss_):
 ```css
