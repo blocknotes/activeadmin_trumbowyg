@@ -11,7 +11,7 @@ Features:
 - customizable options via data attributes in the form input;
 - plugins included, like images upload.
 
-![screenshot](screenshot.png)
+![screenshot](extra/screenshot.png)
 
 Please :star: if you like it.
 
