@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    activeadmin_trumbowyg (0.2.16)
+    activeadmin_trumbowyg (1.0.0)
       activeadmin (~> 2.0)
 
 GEM
