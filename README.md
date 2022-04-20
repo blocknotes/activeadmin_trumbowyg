@@ -2,7 +2,8 @@
 [![gem version](https://badge.fury.io/rb/activeadmin_trumbowyg.svg)](https://badge.fury.io/rb/activeadmin_trumbowyg)
 [![gem downloads](https://badgen.net/rubygems/dt/activeadmin_trumbowyg)](https://rubygems.org/gems/activeadmin_trumbowyg)
 [![linters](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml)
-[![specs](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs.yml)
+[![specs Rails 6.1](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails61.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails61.yml)
+[![specs Rails 7.0](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails70.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails70.yml)
 
 An *Active Admin* plugin to use [Trumbowyg](https://alex-d.github.io/Trumbowyg/) as WYSIWYG editor in form inputs.
 
@@ -11,12 +12,13 @@ Features:
 - customizable options via data attributes in the form input;
 - plugins included, like images upload.
 
-![screenshot](screenshot.png)
+![screenshot](extra/screenshot.png)
 
 Please :star: if you like it.
 
 ## Install
 
+- Add a SASS/SCSS gem to your Gemfile (ex. `gem 'sassc'`)
 - After installing Active Admin, add to your Gemfile: `gem 'activeadmin_trumbowyg'` (and execute *bundle*)
 - Add at the end of your Active Admin styles (_app/assets/stylesheets/active_admin.scss_):
 ```css
@@ -91,6 +93,10 @@ end
 ```
 
 For the relevant files of this upload example see [here](examples/upload_plugin_using_activestorage/). Consider that this is just a basic example: images are uploaded as soon as they are attached to the editor (regardless of the form submit), it shows the editor only for an existing record (because of the *upload_admin_post_path*) and it doesn't provide a way to remove images (just deleting them from the editor will not destroy them, you'll need to implement a purge logic for that).
+
+## Changelog
+
+The changelog is available [here](CHANGELOG.md).
 
 ## Do you like it? Star it!
 
