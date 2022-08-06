@@ -5,8 +5,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
+  gem 'activestorage'
   gem 'puma'
   gem 'sassc'
+  gem 'sprockets-rails'
   gem 'sqlite3'
 
   # Testing
