@@ -7,6 +7,6 @@
   "author": "Mattia Roccoberton <mat@blocknot.es>",
   "license": "MIT",
   "dependencies": {
-    "trumbowyg": "^2.25.0"
+    "trumbowyg": "^2.27.3"
   }
 }
