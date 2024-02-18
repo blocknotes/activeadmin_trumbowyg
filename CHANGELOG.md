@@ -2,6 +2,12 @@
 
 An Active Admin plugin to use Trumbowyg Editor.
 
+## v1.1.0 - 2024-02-18
+
+- Set minimum Ruby version to 3.0.0
+- Set minimum ActiveAdmin version to 2.9.0
+- Update CI configuration
+
 ## v1.0.0 - 2022-04-19
 
 - Set minimum Ruby version to 2.6.0

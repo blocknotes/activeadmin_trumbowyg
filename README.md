@@ -18,6 +18,8 @@ Please :star: if you like it.
 
 ## Install
 
+*NOTE*: if you are using Ruby < 3.0, please use Activeadmin Trumbowyg 1.0.0
+
 - Add a SASS/SCSS gem to your Gemfile (ex. `gem 'sassc'`)
 - After installing Active Admin, add to your Gemfile: `gem 'activeadmin_trumbowyg'` (and execute *bundle*)
 - Add at the end of your Active Admin styles (_app/assets/stylesheets/active_admin.scss_):
