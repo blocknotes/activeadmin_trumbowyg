@@ -1,8 +1,8 @@
 /**
- * Trumbowyg v2.25.1 - A lightweight WYSIWYG editor
+ * Trumbowyg v2.27.3 - A lightweight WYSIWYG editor
  * Trumbowyg core file
  * ------------------------
- * @link http://alex-d.github.io/Trumbowyg
+ * @link https://alex-d.github.io/Trumbowyg/
  * @license MIT
  * @author Alexandre Demode (Alex-D)
  *         Twitter : @AlexandreDemode
@@ -42,6 +42,9 @@ jQuery.trumbowyg = {
             link: 'Link',
             createLink: 'Insert link',
             unlink: 'Remove link',
+
+            _self: 'Same tab (default)',
+            _blank: 'New tab',
 
             justifyLeft: 'Align Left',
             justifyCenter: 'Align Center',
@@ -126,7 +129,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
 
         urlProtocol: false,
         minimalLinks: false,
-        defaultLinkTarget: undefined,
+        linkTargets: ['_self', '_blank'],
 
         svgPath: null
     },
@@ -272,7 +275,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
             }
         }
 
-        var baseHref = !!t.doc.querySelector('base') ? window.location.href.split(/[?#]/)[0] : '';
+        var baseHref = !!t.doc.querySelector('base') ? window.location.href.replace(window.location.hash, '') : '';
         t.svgPath = $trumbowyg.svgAbsoluteUseHref ? svgPathOption : baseHref;
 
 
@@ -482,7 +485,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
 
         init: function () {
             var t = this;
-            t.height = t.$ta.height();
+            t.height = t.$ta.outerHeight() - 39; // Remove button pane height
 
             t.initPlugins();
 
@@ -533,15 +536,20 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 class: prefix + 'box ' + prefix + 'editor-visible ' + prefix + t.o.lang + ' trumbowyg'
             });
 
+            t.$edBox = $('<div/>', {
+                class: prefix + 'editor-box',
+            });
+
             // $ta = Textarea
             // $ed = Editor
             t.isTextarea = t.$ta.is('textarea');
             if (t.isTextarea) {
                 html = t.$ta.val();
-                t.$ed = $('<div/>');
+                t.$ed = $('<div/>')
+                    .appendTo(t.$edBox);
                 t.$box
                     .insertAfter(t.$ta)
-                    .append(t.$ed, t.$ta);
+                    .append(t.$edBox, t.$ta);
             } else {
                 t.$ed = t.$ta;
                 html = t.$ed.html();
@@ -553,7 +561,8 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
 
                 t.$box
                     .insertAfter(t.$ed)
-                    .append(t.$ta, t.$ed);
+                    .append(t.$ta, t.$edBox);
+                t.$edBox.append(t.$ed);
                 t.syncCode();
             }
 
@@ -585,12 +594,6 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
 
             if (t.o.resetCss) {
                 t.$ed.addClass(prefix + 'reset-css');
-            }
-
-            if (!t.o.autogrow) {
-                t.$ta.add(t.$ed).css({
-                    height: t.height
-                });
             }
 
             t.semanticCode();
@@ -658,7 +661,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                     if ((e.ctrlKey || e.metaKey) && (keyCode === 89 || keyCode === 90)) {
                         t.semanticCode(false, true);
                         t.$c.trigger('tbwchange');
-                    } else if (!ctrl && keyCode !== 17) {
+                    } else if (!ctrl && keyCode !== 16 && keyCode !== 17) {
                         var compositionEndIE = t.isIE ? e.type === 'compositionend' : true;
                         t.semanticCode(false, compositionEndIE && keyCode === 13);
                         t.$c.trigger('tbwchange');
@@ -669,6 +672,14 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                     setTimeout(function () {
                         ctrl = false;
                     }, 50);
+                })
+                .on('input', function (e) {
+                    // Trigger change event when spelling fixes applied
+                    var event = e.originalEvent;
+                    if (typeof event === 'object' && (event.inputType === 'insertReplacementText' ||
+                        (event.inputType === 'insertText' && event.data === null))) {
+                        t.$c.trigger('tbwchange');
+                    }
                 })
                 .on('mouseup keydown keyup', function (e) {
                     if ((!e.ctrlKey && !e.metaKey) || e.altKey) {
@@ -694,7 +705,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                             t.autogrowOnEnterWasFocused = true;
                             t.autogrowEditorOnEnter();
                         } else if (!t.o.autogrow) {
-                            t.$ed.css({height: t.$ed.css('min-height')});
+                            t.$edBox.css({height: t.$edBox.css('min-height')});
                             t.$c.trigger('tbwresize');
                         }
                     }
@@ -775,13 +786,13 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
             var t = this;
             t.$ed.removeClass('autogrow-on-enter');
             var oldHeight = t.$ed[0].clientHeight;
-            t.$ed.height('auto');
+            t.$edBox.height('auto');
             var totalHeight = t.$ed[0].scrollHeight;
             t.$ed.addClass('autogrow-on-enter');
             if (oldHeight !== totalHeight) {
-                t.$ed.height(oldHeight);
+                t.$edBox.height(oldHeight);
                 setTimeout(function () {
-                    t.$ed.css({height: totalHeight});
+                    t.$edBox.css({height: totalHeight});
                     t.$c.trigger('tbwresize');
                 }, 0);
             }
@@ -798,7 +809,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
             });
 
             $.each(t.o.btns, function (i, btnGrp) {
-                if (!$.isArray(btnGrp)) {
+                if (!Array.isArray(btnGrp)) {
                     btnGrp = [btnGrp];
                 }
 
@@ -1035,7 +1046,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 );
             } else {
                 t.$box.after(
-                    t.$ed
+                    t.$edBox
                         .css({height: ''})
                         .removeClass(prefix + 'editor')
                         .removeAttr('contenteditable')
@@ -1060,6 +1071,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
 
         // Empty the editor
         empty: function () {
+            this.doc.execCommand('insertHTML', false, '');
             this.$ta.val('');
             this.syncCode(true);
         },
@@ -1175,17 +1187,17 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
             }
 
             if (t.o.autogrow) {
-                t.height = t.$ed.height();
+                t.height = t.$edBox.height();
                 if (t.height !== t.$ta.css('height')) {
                     t.$ta.css({height: t.height});
                     t.$c.trigger('tbwresize');
                 }
             }
             if (t.o.autogrowOnEnter) {
-                t.$ed.height('auto');
-                var totalHeight = t.autogrowOnEnterWasFocused ? t.$ed[0].scrollHeight : t.$ed.css('min-height');
+                t.$edBox.height('auto');
+                var totalHeight = t.autogrowOnEnterWasFocused ? t.$edBox[0].scrollHeight : t.$edBox.css('min-height');
                 if (totalHeight !== t.$ta.css('height')) {
-                    t.$ed.css({height: totalHeight});
+                    t.$edBox.css({height: totalHeight});
                     t.$c.trigger('tbwresize');
                 }
             }
@@ -1300,7 +1312,8 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 text = new XMLSerializer().serializeToString(selectedRange.cloneContents()) || selectedRange + '',
                 url,
                 title,
-                target;
+                target,
+                linkDefaultTarget = t.o.linkTargets[0];
 
             while (['A', 'DIV'].indexOf(node.nodeName) < 0) {
                 node = node.parentNode;
@@ -1312,7 +1325,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 url = $a.attr('href');
                 if (!t.o.minimalLinks) {
                     title = $a.attr('title');
-                    target = $a.attr('target') || t.o.defaultLinkTarget;
+                    target = $a.attr('target') || linkDefaultTarget;
                 }
                 var range = t.doc.createRange();
                 range.selectNode(node);
@@ -1334,6 +1347,12 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 }
             };
             if (!t.o.minimalLinks) {
+                var targetOptions = t.o.linkTargets.reduce(function (options, optionValue) {
+                    options[optionValue] = t.lang[optionValue];
+
+                    return options;
+                }, {});
+
                 $.extend(options, {
                     title: {
                         label: t.lang.title,
@@ -1341,7 +1360,8 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                     },
                     target: {
                         label: t.lang.target,
-                        value: target
+                        value: target,
+                        options: targetOptions
                     }
                 });
             }
@@ -1357,8 +1377,8 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 if (v.title) {
                     link.attr('title', v.title);
                 }
-                if (v.target || t.o.defaultLinkTarget) {
-                    link.attr('target', v.target || t.o.defaultLinkTarget);
+                if (v.target || linkDefaultTarget) {
+                    link.attr('target', v.target || linkDefaultTarget);
                 }
                 t.range.deleteContents();
                 t.range.insertNode(link[0]);
@@ -1559,6 +1579,11 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 zIndex: 99999
             }).appendTo($(t.doc.body));
 
+            var darkClass = prefix + 'dark';
+            if (t.$c.parents('.' + darkClass).length !== 0) {
+                $modal.addClass(darkClass);
+            }
+
             // Click on overlay close modal by cancelling them
             t.$overlay.one('click', function () {
                 $modal.trigger(CANCEL_EVENT);
@@ -1685,14 +1710,28 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                   if (!field.name) {
                     field.name = n;
                   }
+
                   html += field.type(field, fieldId, prefix, lg);
-                } else {
-                  html += '<div class="' + prefix + 'input-row">' +
-                    '<div class="' + prefix + 'input-infos"><label for="' + fieldId + '"><span>' + (lg[l] ? lg[l] : l) + '</span></label></div>' +
-                    '<div class="' + prefix + 'input-html"><input id="' + fieldId + '" type="' + (field.type || 'text') + '" name="' + n + '" ' + attr;
-                    html += (field.type === 'checkbox' && field.value ? ' checked="checked"' : '') + ' value="' + (field.value || '').replace(/"/g, '&quot;') + '"></div>';
-                  html += '</div>';
+
+                  return;
                 }
+
+                html += '<div class="' + prefix + 'input-row">';
+                html += '<div class="' + prefix + 'input-infos"><label for="' + fieldId + '"><span>' + (lg[l] ? lg[l] : l) + '</span></label></div>';
+                html += '<div class="' + prefix + 'input-html">';
+
+                if ($.isPlainObject(field.options)) {
+                    html += '<select name="target">';
+                    html += Object.keys(field.options).map((optionValue) => {
+                        return '<option value="' + optionValue + '" ' + (optionValue === field.value ? 'selected' : '') + '>' + field.options[optionValue] + '</option>';
+                    }).join('');
+                    html += '</select>';
+                } else {
+                    html += '<input id="' + fieldId + '" type="' + (field.type || 'text') + '" name="' + n + '" ' + attr;
+                    html += (field.type === 'checkbox' && field.value ? ' checked="checked"' : '') + ' value="' + (field.value || '').replace(/"/g, '&quot;') + '">';
+                }
+
+                html += '</div></div>';
             });
 
             return t.openModal(title, html)
@@ -1920,7 +1959,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
                 prefix = t.o.prefix,
                 activeClasses = prefix + 'active-button ' + prefix + 'active',
                 originalIconClass = prefix + 'original-icon',
-                tags = t.getTagsRecursive(t.doc.getSelection().focusNode);
+                tags = t.getTagsRecursive(t.doc.getSelection().anchorNode);
 
             t.clearButtonPaneStatus();
 
@@ -1962,7 +2001,9 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
             tags = tags || (element && element.tagName ? [element.tagName] : []);
 
             if (element && element.parentNode) {
-                element = element.parentNode;
+                if (element.nodeType !== Node.ELEMENT_NODE) {
+                    element = element.parentNode;
+                }
             } else {
                 return tags;
             }
@@ -1981,7 +2022,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
 
             tags.push(tag);
 
-            return t.getTagsRecursive(element, tags).filter(function (tag) {
+            return t.getTagsRecursive(element.parentNode, tags).filter(function (tag) {
                 return tag != null;
             });
         },
