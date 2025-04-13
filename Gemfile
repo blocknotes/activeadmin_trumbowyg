@@ -35,6 +35,7 @@ gem 'zeitwerk', '~> 2.6.18' unless ruby32
 gem 'concurrent-ruby', '1.3.4'
 
 gem 'bigdecimal'
+gem 'csv'
 gem 'mutex_m'
 gem 'puma'
 gem 'sassc'
