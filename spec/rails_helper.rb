@@ -2,6 +2,11 @@
 
 require_relative 'spec_helper'
 
+require 'zeitwerk'
+loader = Zeitwerk::Loader.new
+loader.push_dir("#{__dir__}/page_objects")
+loader.setup
+
 ENV['RAILS_ENV'] = 'test'
 
 require File.expand_path('dummy/config/environment.rb', __dir__)
@@ -10,7 +15,6 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 
 require 'rspec/rails'
 require 'capybara/rails'
-require 'rspec/retry'
 
 Dir[File.expand_path('support/**/*.rb', __dir__)].each { |f| require_relative f }
 
@@ -36,8 +40,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures = false
   config.render_views = false
-
-  config.default_retry_count = 2
 
   config.before(:suite) do
     intro = ('-' * 80)

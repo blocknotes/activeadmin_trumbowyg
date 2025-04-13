@@ -1,66 +1,123 @@
 # frozen_string_literal: true
 
+using StringCleanMultiline
+
 RSpec.describe 'Trumbowyg editor' do
   let(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe', age: 30) }
   let(:post) do
-    Post.create!(title: 'Test', author: author, summary: 'Some content!', description: 'Some content...')
+    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', summary: '<p>Post summary</p>')
   end
 
-  before do
-    post
-  end
-
-  after do
-    Post.delete_all
-    author.delete
-  end
+  let(:submit_button) { find('#post_submit_action [type="submit"]') }
 
   context 'with a Trumbowyg editor' do
-    it 'initialize the editor', :aggregate_failures do
-      visit "/admin/posts/#{post.id}/edit"
+    let(:edit_page) do
+      path = edit_admin_post_path(post)
+      Admin::Posts::EditPage.new(path: path)
+    end
+    let(:editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
+    let(:input_field) { find('#post_description[data-aa-trumbowyg]', visible: :hidden) }
 
-      %w[bold italic underline link justifyRight].each do |button|
-        expect(page).to have_css(".trumbowyg button.trumbowyg-#{button}-button")
-      end
-      expect(page).to have_css('#post_description[data-aa-trumbowyg]', visible: :hidden)
-      expect(page).to have_css('#post_description_input .trumbowyg-editor', text: 'Some content...')
+    before do
+      edit_page.load
     end
 
-    it 'adds some text to the summary', :aggregate_failures do
-      visit "/admin/posts/#{post.id}/edit"
-
-      find('#post_summary_input .trumbowyg-editor').base.send_keys('More text')
-      find('[type="submit"]').click
-
-      expect(page).to have_content('was successfully updated')
-      expect(post.reload.summary).to eq '<p>Some content!More text</p>'
+    it 'initializes the editor', :aggregate_failures do
+      expect(editor.content_element).to be_present
+      expect(editor.content).to eq('<p>Some content</p>')
+      expect(input_field.value).to eq('<p>Some content</p>')
     end
 
-    it 'adds right aligned text to the summary', :aggregate_failures do
-      visit "/admin/posts/#{post.id}/edit"
+    it 'edits some content using the editor' do
+      editor << :return << 'More content'
+      editor.toggle_bold
+      editor << 'Some bold'
+      editor.toggle_italic
+      editor << 'Some italic'
+      editor.toggle_underline
+      editor << 'Some underline'
 
-      find('#post_summary_input .trumbowyg-button-pane .trumbowyg-justifyRight-button').click
-      find('[type="submit"]').click
+      expect(editor.content).to eq <<~HTML.clean_multiline
+        <p>Some content</p>
+        <p>More content<strong>Some bold<em>Some italic<u>Some underline</u></em></strong></p>
+      HTML
+    end
+
+    it 'updates the field when submitting', :aggregate_failures do
+      editor.toggle_bold
+      editor << 'More content'
+
+      before = '<p>Some content</p>'
+      after = '<p><strong>More content</strong>Some content</p>'
+      expect { submit_button.click }.to change { post.reload.description }.from(before).to(after)
 
       expect(page).to have_content('was successfully updated')
-      expect(post.reload.summary).to match /text-align: right.*Some content/
+    end
+  end
+
+  context 'with 2 Trumbowyg editors' do
+    let(:edit_page) do
+      path = edit_admin_post_path(post)
+      Admin::Posts::EditPage.new(path: path)
+    end
+    let(:first_editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
+    let(:second_editor) { edit_page.lookup_editor(editor_container: '#post_summary_input') }
+    let(:first_field) { find('#post_description[data-aa-trumbowyg]', visible: :hidden) }
+    let(:second_field) { find('#post_summary[data-aa-trumbowyg]', visible: :hidden) }
+
+    before do
+      edit_page.load
+    end
+
+    it 'updates some HTML content for 2 fields', :aggregate_failures do
+      # Check the initial states
+      expect(first_editor.content).to eq('<p>Some content</p>')
+      expect(second_editor.content).to eq('<p>Post summary</p>')
+
+      expect(first_field.value).to eq('<p>Some content</p>')
+      expect(second_field.value).to eq('<p>Post summary</p>')
+
+      # Add some content to both the editors
+      first_editor.toggle_bold
+      first_editor << 'Some bold'
+
+      second_editor.toggle_italic
+      second_editor << 'Some italic'
+
+      # Check that both the fields change
+      before = '<p>Some content</p>'
+      after = '<p><strong>Some bold</strong>Some content</p>'
+      expect { submit_button.click }.to change { post.reload.description }.from(before).to(after)
+
+      expect(post.summary).to eq '<p><em>Some italic</em>Post summary</p>'
     end
   end
 
   context 'with a Trumbowyg editor in a nested resource' do
+    let(:edit_page) do
+      path = edit_admin_author_path(author)
+      Admin::Authors::EditPage.new(path: path)
+    end
+    let(:submit_button) { find('#author_submit_action [type="submit"]') }
+
+    before do
+      post
+      edit_page.load
+    end
+
     it 'updates some HTML content of a new nested resource', :aggregate_failures do
-      visit "/admin/authors/#{author.id}/edit"
+      click_on 'Add New Post'
 
-      expect(page).to have_css('.posts.has_many_container .trumbowyg-box', text: 'Some content...')
-      find('.posts.has_many_container .has_many_add').click
-      expect(page).to have_css('.posts.has_many_container .trumbowyg-box', count: 2)
+      first_editor = edit_page.lookup_editor(editor_container: '#author_posts_attributes_0_description_input')
+      expect(first_editor.content).to eq('<p>Some content</p>')
 
-      fill_in('author[posts_attributes][1][title]', with: 'A new post')
-      find('#author_posts_attributes_1_description_input .trumbowyg-editor').base.send_keys('new post text')
-      find('[type="submit"]').click
+      fill_in('author[posts_attributes][1][title]', with: 'Some title')
+      second_editor = edit_page.lookup_editor(editor_container: '#author_posts_attributes_1_description_input')
+      second_editor.toggle_delete
+      second_editor << 'Some deleted'
 
-      expect(page).to have_content('was successfully updated')
-      expect(author.posts.last.description).to eq '<p>new post text</p>'
+      expect { submit_button.click }.to change(Post, :count).by(1)
+      expect(Post.last.description).to eq '<p><del>Some deleted</del></p>'
     end
   end
 end
