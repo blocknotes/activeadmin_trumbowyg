@@ -9,10 +9,10 @@ namespace :trumbowyg do
     # p font_path( 'active_admin-trumbowyg.svg' )
 
     fingerprint = /-[0-9a-f]{32,64}\./
-    path = Rails.root.join( 'public/assets/active_admin-trumbowyg*' )
+    path = Rails.public_path.join('assets/active_admin-trumbowyg*')
 
     Dir[path].each do |file|
-      next unless file =~ fingerprint
+      next unless file&.match?(fingerprint)
 
       nondigest = file.sub fingerprint, '.'
       if !File.exist?(nondigest) || File.mtime(file) > File.mtime(nondigest)

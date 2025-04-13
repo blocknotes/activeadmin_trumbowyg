@@ -1,6 +1,14 @@
 inherit_from:
   - https://relaxed.ruby.style/rubocop.yml
 
+plugins:
+  - rubocop-capybara
+  - rubocop-packaging
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
+
 AllCops:
   Exclude:
     - bin/*
@@ -10,3 +18,11 @@ AllCops:
     - vendor/**/*
   NewCops: enable
   TargetRubyVersion: 3.0
+
+RSpec/ExampleLength:
+  # default 5
+  Max: 10
+
+RSpec/MultipleMemoizedHelpers:
+  # default: 5
+  Max: 10
