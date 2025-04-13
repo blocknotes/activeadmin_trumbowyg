@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Post do
-  permit_params :author_id, :title, :description, :category, :dt, :position, :published, tag_ids: []
+  permit_params :author_id, :title, :summary, :description, :category, :dt, :position, :published, tag_ids: []
+
+  remove_filter :state, :summary
 
   index do
     selectable_column
@@ -17,6 +19,7 @@ ActiveAdmin.register Post do
     attributes_table do
       row :author
       row :title
+      row :summary
       row :description
       row :category
       row :dt
@@ -31,10 +34,12 @@ ActiveAdmin.register Post do
 
   form do |f|
     buttons = %w[bold italic underline link justifyRight]
+
     f.inputs 'Post' do
       f.input :author
       f.input :title
-      f.input :description, as: :trumbowyg, input_html: { data: { options: { btns: buttons } } }
+      f.input :summary, as: :trumbowyg, input_html: { data: { options: { btns: buttons } } }
+      f.input :description, as: :trumbowyg # using default options
       f.input :category
       f.input :dt
       f.input :position

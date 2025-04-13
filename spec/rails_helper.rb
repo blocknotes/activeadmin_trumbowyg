@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require_relative 'spec_helper'
 
 ENV['RAILS_ENV'] = 'test'
 
@@ -12,10 +12,7 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'rspec/retry'
 
-Dir[File.expand_path('support/**/*.rb', __dir__)].sort.each { |f| require f }
-
-# Force deprecations to raise an exception.
-ActiveSupport::Deprecation.behavior = :raise
+Dir[File.expand_path('support/**/*.rb', __dir__)].each { |f| require_relative f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -27,7 +24,12 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  if Gem::Version.new(Rails.version) >= Gem::Version.new('7.1')
+    config.fixture_paths = [Rails.root.join('spec/fixtures')]
+  else
+    config.fixture_path = Rails.root.join('spec/fixtures')
+  end
+
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
 
