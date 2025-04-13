@@ -50,7 +50,7 @@ ActiveAdmin.register Author do
     end
     f.has_many :posts do |fp|
       fp.input :title
-      fp.input :description, as: :trumbowyg
+      fp.input :description, as: :froala_editor
     end
     f.actions
   end

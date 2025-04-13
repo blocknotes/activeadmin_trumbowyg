@@ -100,16 +100,17 @@ For the relevant files of this upload example see [here](examples/upload_plugin_
 
 The changelog is available [here](CHANGELOG.md).
 
+## Development
+
+Project created by [Mattia Roccoberton](http://blocknot.es), thanks also to the good guys that opened issues and pull requests from time to time.
+
+For development information please check [this document](extra/development.md).
+
 ## Do you like it? Star it!
 
 If you use this component just star it. A developer is more motivated to improve a project when there is some interest. My other [Active Admin components](https://github.com/blocknotes?utf8=✓&tab=repositories&q=activeadmin&type=source).
 
 Or consider offering me a coffee, it's a small thing but it is greatly appreciated: [about me](https://www.blocknot.es/about-me).
-
-## Contributors
-
-- [Mattia Roccoberton](http://blocknot.es): author
-- The good guys that opened issues and pull requests from time to time
 
 ## License
 
