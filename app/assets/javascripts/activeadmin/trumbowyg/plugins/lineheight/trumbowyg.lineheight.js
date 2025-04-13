@@ -13,6 +13,24 @@
                     '2.0': 'Extra large'
                 }
             },
+            az: {
+                lineheight: 'Sətir yüksəkliyi',
+                lineheights: {
+                    '0.9': 'Kiçik',
+                    'normal': 'Normal',
+                    '1.5': 'Böyük',
+                    '2.0': 'Daha böyük'
+                }
+            },
+            by: {
+                lineheight: 'Міжрадковы інтэрвал',
+                lineheights: {
+                    '0.9': 'Маленькі',
+                    'normal': 'Звычайны',
+                    '1.5': 'Вялікі',
+                    '2.0': 'Вельмі вялікі'
+                }
+            },
             da: {
                 lineheight: 'Linjehøjde',
                 lineheights: {
@@ -20,6 +38,15 @@
                     'normal': 'Normal',
                     '1.5': 'Stor',
                     '2.0': 'Ekstra stor'
+                }
+            },
+            de: {
+                lineheight: 'Zeilenhöhe',
+                lineheights: {
+                    '0.9': 'Klein',
+                    'normal': 'Normal',
+                    '1.5': 'Groß',
+                    '2.0': 'Sehr groß'
                 }
             },
             et: {
@@ -85,6 +112,24 @@
                     '2.0': 'Extra grande'
                 }
             },
+            ru: {
+                lineheight: 'Межстрочный интервал',
+                lineheights: {
+                    '0.9': 'Маленький',
+                    'normal': 'Обычный',
+                    '1.5': 'Большой',
+                    '2.0': 'Очень большой'
+                }
+            },
+            sl: {
+                lineheight: 'Višina vrstice',
+                lineheights: {
+                    '0.9': 'Majhna',
+                    'normal': 'Navadna',
+                    '1.5': 'Velika',
+                    '2.0': 'Ekstra velika'
+                }
+            },
             tr: {
                 lineheight: 'Satır yüksekliği',
                 lineheights: {
@@ -102,7 +147,7 @@
                     '1.5': '大',
                     '2.0': '特大'
                 }
-            },
+            }
         }
     });
     // jshint camelcase:true
@@ -122,8 +167,8 @@
             lineheight: {
                 init: function (trumbowyg) {
                     trumbowyg.o.plugins.lineheight = $.extend({},
-                      defaultOptions,
-                      trumbowyg.o.plugins.lineheight || {}
+                        defaultOptions,
+                        trumbowyg.o.plugins.lineheight || {}
                     );
 
                     trumbowyg.addBtnDef('lineheight', {
@@ -138,11 +183,11 @@
     function buildDropdown(trumbowyg) {
         var dropdown = [];
 
-        $.each(trumbowyg.o.plugins.lineheight.sizeList, function(index, size) {
+        $.each(trumbowyg.o.plugins.lineheight.sizeList, function (index, size) {
             trumbowyg.addBtnDef('lineheight_' + size, {
                 text: trumbowyg.lang.lineheights[size] || size,
                 hasIcon: false,
-                fn: function(){
+                fn: function () {
                     trumbowyg.saveRange();
                     var text = trumbowyg.getRangeText();
                     if (text.replace(/\s/g, '') !== '') {

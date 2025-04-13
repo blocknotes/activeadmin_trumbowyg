@@ -6,6 +6,7 @@
  * Author : Jake Johns (jakejohns)
  */
 
+/* global AbortSignal:true */
 (function ($) {
     'use strict';
 
@@ -24,11 +25,22 @@
                 noembed: 'Noembed',
                 noembedError: 'Error'
             },
+            az: {
+                noembed: 'Noembed',
+                noembedError: 'Xəta'
+            },
+            by: {
+                noembedError: 'Памылка'
+            },
             cs: {
                 noembedError: 'Chyba'
             },
             da: {
                 noembedError: 'Fejl'
+            },
+            de: {
+                noembed: 'Noembed',
+                noembedError: 'Fehler'
             },
             et: {
                 noembed: 'Noembed',
@@ -54,6 +66,10 @@
             },
             ru: {
                 noembedError: 'Ошибка'
+            },
+            sl: {
+                noembed: 'Noembed',
+                noembedError: 'Napaka'
             },
             sk: {
                 noembedError: 'Chyba'
@@ -89,32 +105,47 @@
 
                                 // Callback
                                 function (data) {
-                                    $.ajax({
-                                        url: trumbowyg.o.plugins.noembed.proxy,
-                                        type: 'GET',
-                                        data: data,
-                                        cache: false,
-                                        dataType: 'json',
+                                    // Build request URL
+                                    var requestUrl = new URL(trumbowyg.o.plugins.noembed.proxy);
+                                    Object.keys(data).forEach((key) => {
+                                        requestUrl.searchParams.append(key, data[key].trim());
+                                    });
 
-                                        success: trumbowyg.o.plugins.noembed.success || function (data) {
-                                            if (data.html) {
-                                                trumbowyg.execCmd('insertHTML', data.html);
-                                                setTimeout(function () {
-                                                    trumbowyg.closeModal();
-                                                }, 250);
-                                            } else {
+                                    // Launch async request
+                                    fetch(requestUrl, {
+                                        method: 'GET',
+                                        cache: 'no-cache',
+                                        signal: AbortSignal.timeout(2000)
+                                    }).then((response) => {
+                                        if (trumbowyg.o.plugins.noembed.success) {
+                                            trumbowyg.o.plugins.noembed.success(data, trumbowyg, $modal);
+                                            return;
+                                        }
+
+                                        return response.json().then((json) => {
+                                            if (!json.html) {
                                                 trumbowyg.addErrorOnModalField(
                                                     $('input[type=text]', $modal),
-                                                    data.error
+                                                    json.error
                                                 );
+                                                return;
                                             }
-                                        },
-                                        error: trumbowyg.o.plugins.noembed.error || function () {
-                                            trumbowyg.addErrorOnModalField(
-                                                $('input[type=text]', $modal),
-                                                trumbowyg.lang.noembedError
-                                            );
+
+                                            trumbowyg.execCmd('insertHTML', json.html);
+                                            setTimeout(function () {
+                                                trumbowyg.closeModal();
+                                            }, 250);
+                                        });
+                                    }).catch((...args) => {
+                                        if (trumbowyg.o.plugins.noembed.error) {
+                                            trumbowyg.o.plugins.noembed.error(...args);
+                                            return;
                                         }
+
+                                        trumbowyg.addErrorOnModalField(
+                                            $('input[type=text]', $modal),
+                                            trumbowyg.lang.noembedError
+                                        );
                                     });
                                 }
                             );

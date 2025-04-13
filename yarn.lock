@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-trumbowyg@^2.25.0:
-  version "2.25.1"
-  resolved "https://registry.yarnpkg.com/trumbowyg/-/trumbowyg-2.25.1.tgz#fa77b5a9c49875017d437f4d62a35b7da7ca560d"
-  integrity sha512-bmmV1qC+fTLfyVpLE5iZjCzHG5DfAwM7p8K2fdq6L1kOi+IrVJk/qGFVEEmYyJ0Ofd1z3g2vavfABpmkVLzV6A==
+trumbowyg@^2.31.0:
+  version "2.31.0"
+  resolved "https://registry.yarnpkg.com/trumbowyg/-/trumbowyg-2.31.0.tgz#377959f76a4fcafd947570720cc986c843434df2"
+  integrity sha512-I+DMiluTpLDx3yn6LR0TIVR7xIOjgtBQmpEE6Ofd+2yl5ruzY63q/yA/DfBuRVxdK7yDYSBe9FXpVjM1P2NdtA==

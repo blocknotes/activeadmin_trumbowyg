@@ -5,6 +5,7 @@ body.active_admin {
     display: inline-block;
     margin-top: 0;
     margin-bottom: 0;
+    min-height: initial;
     width: calc(80% - 2px);
 
     button {
@@ -20,8 +21,9 @@ body.active_admin {
       display: block;
     }
 
-    >.trumbowyg-editor {
+    >.trumbowyg-editor-box {
       background-color: #fff;
+      min-height: 200px;
 
       li {
         margin: initial;

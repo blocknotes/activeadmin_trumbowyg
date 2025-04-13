@@ -184,7 +184,7 @@
         return [
             '<pre class="language-' + language + '" ' + (lineHighlight ? 'data-line="' + lineHighlight + '"' : '') + '>',
             '<code class="language-' + language + '">' + Prism.highlight(text, Prism.languages[language]) + '</code>',
-            '</pre>',
+            '</pre>'
         ].join('');
     }
 
@@ -198,16 +198,16 @@
         var prismLanguageKeys = Object.keys(Prism.languages);
 
         var options = prismLanguageKeys.filter(function (languageKey) {
-          return languageNameKeys.indexOf(languageKey) >= 0;
+            return languageNameKeys.indexOf(languageKey) >= 0;
         }).map(function (languageKey) {
             return {
                 id: languageKey,
                 name: languageNames[languageKey]
             };
-        }).sort(function(a, b){
+        }).sort(function (a, b) {
             // Sort languages by name
             return a.name.localeCompare(b.name);
-        }).map(function( language){
+        }).map(function (language) {
             // Generate a list of options
             return '<option value="' + escapeHtml(language.id) + '">' + escapeHtml(language.name) + '</option>';
         }).join('');
@@ -269,6 +269,14 @@
                 highlight: 'Code syntax highlight',
                 highlightLine: 'Highlight lines, e.g.: 1,3-5'
             },
+            az: {
+                highlight: 'Kod birləşməsini vurğulamaq',
+                highlightLine: 'Sətirləri vurğulamaq, məsələn: 1,3-5'
+            },
+            by: {
+                highlight: 'Падсветка сінтаксісу кода',
+                highlightLine: 'Падсвятліць радкі, напр.: 1,3-5'
+            },
             es: {
                 highlight: 'Resaltado de sintaxis de código',
                 highlightLine: 'Resaltar lineas, ej: 1,3-5'
@@ -286,6 +294,18 @@
             pt_br: {
                 highlight: 'Realçar sintaxe de código'
             },
+            ru: {
+                highlight: 'Подсветка синтаксиса кода',
+                highlightLine: 'Подсветить строки, напр.: 1,3-5'
+            },
+            sl: {
+                highlight: 'Označi sintakso kode',
+                highlightLine: 'Označi številko vrstice, npr.: 1,3-5'
+            },
+            tr: {
+                highlight: 'Kod sözdizimini vurgula',
+                highlightLine: 'Vurgu çizgileri, örneğin: 1,3-5'
+            }
             // jshint camelcase:true
         },
         // Add our plugin to Trumbowyg registered plugins
