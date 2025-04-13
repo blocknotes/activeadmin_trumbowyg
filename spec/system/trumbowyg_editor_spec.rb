@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Trumbowyg editor', type: :system do
+RSpec.describe 'Trumbowyg editor' do
   let(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe', age: 30) }
   let(:post) do
     Post.create!(title: 'Test', author: author, summary: 'Some content!', description: 'Some content...')
@@ -16,7 +16,7 @@ RSpec.describe 'Trumbowyg editor', type: :system do
   end
 
   context 'with a Trumbowyg editor' do
-    it 'initialize the editor' do
+    it 'initialize the editor', :aggregate_failures do
       visit "/admin/posts/#{post.id}/edit"
 
       %w[bold italic underline link justifyRight].each do |button|
@@ -26,7 +26,7 @@ RSpec.describe 'Trumbowyg editor', type: :system do
       expect(page).to have_css('#post_description_input .trumbowyg-editor', text: 'Some content...')
     end
 
-    it 'adds some text to the summary' do
+    it 'adds some text to the summary', :aggregate_failures do
       visit "/admin/posts/#{post.id}/edit"
 
       find('#post_summary_input .trumbowyg-editor').base.send_keys('More text')
@@ -36,7 +36,7 @@ RSpec.describe 'Trumbowyg editor', type: :system do
       expect(post.reload.summary).to eq '<p>Some content!More text</p>'
     end
 
-    it 'adds right aligned text to the summary' do
+    it 'adds right aligned text to the summary', :aggregate_failures do
       visit "/admin/posts/#{post.id}/edit"
 
       find('#post_summary_input .trumbowyg-button-pane .trumbowyg-justifyRight-button').click
@@ -48,7 +48,7 @@ RSpec.describe 'Trumbowyg editor', type: :system do
   end
 
   context 'with a Trumbowyg editor in a nested resource' do
-    it 'updates some HTML content of a new nested resource' do
+    it 'updates some HTML content of a new nested resource', :aggregate_failures do
       visit "/admin/authors/#{author.id}/edit"
 
       expect(page).to have_css('.posts.has_many_container .trumbowyg-box', text: 'Some content...')

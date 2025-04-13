@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['{app,lib}/**/*', 'LICENSE.txt', 'Rakefile', 'README.md']
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activeadmin', '>= 2.9.0'
+  spec.add_dependency 'activeadmin', '>= 2.9.0'
 end

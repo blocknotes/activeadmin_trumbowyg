@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Trumbowyg JS', type: :system do
+RSpec.describe 'Trumbowyg JS' do
   it 'defines a Javascript object for the editor', :aggregate_failures do
     visit '/admin/posts'
 
