@@ -21,7 +21,7 @@ AllCops:
 
 RSpec/ExampleLength:
   # default 5
-  Max: 10
+  Max: 12
 
 RSpec/MultipleMemoizedHelpers:
   # default: 5
