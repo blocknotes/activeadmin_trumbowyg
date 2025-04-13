@@ -2,10 +2,10 @@
 # This command will automatically be run when you run "rails" with Rails gems
 # installed from the root of your application.
 
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV'] ||= 'development'
 
 ENGINE_ROOT = File.expand_path('..', __dir__)
-ENGINE_PATH = File.expand_path('../lib/activeadmin_trumbowyg', __dir__)
+ENGINE_PATH = File.expand_path('../lib/activeadmin/trumbowyg/engine', __dir__)
 APP_PATH = File.expand_path('../spec/dummy/config/application', __dir__)
 
 # Set up gems listed in the Gemfile.

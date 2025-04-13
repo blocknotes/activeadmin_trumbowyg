@@ -7,9 +7,9 @@
 
 /_misc/
 /coverage/
+/node_modules/
 /spec/dummy/db/*.sqlite3*
+/spec/dummy/db/schema-dev.rb
 /spec/dummy/log/
 /spec/dummy/storage/
 /spec/dummy/tmp/
-
-/node_modules/
