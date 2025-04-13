@@ -28,20 +28,13 @@ ActiveAdmin.register Post do
       row :tags
       row :created_at
       row :updated_at
-      row :images do |resurce|
-        resurce.images.each do |image|
-          div do
-            link_to image.filename, image, target: '_blank', rel: :noopener
-          end
-        end
-        nil
-      end
     end
     active_admin_comments
   end
 
   form do |f|
-    buttons = %w[undo redo bold italic]
+    buttons = %w[bold italic underline link justifyRight]
+
     f.inputs 'Post' do
       f.input :author
       f.input :title

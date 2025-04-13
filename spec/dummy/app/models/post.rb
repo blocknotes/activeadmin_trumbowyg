@@ -14,14 +14,6 @@ class Post < ApplicationRecord
   has_many :post_tags, inverse_of: :post, dependent: :destroy
   has_many :tags, through: :post_tags
 
-  if Gem::Version.new(Rails.version) >= Gem::Version.new('7.1')
-    serialize :description, coder: JSON
-  else
-    serialize :description, JSON
-  end
-
-  after_initialize -> { self.description = {} if description.nil? }
-
   validates :title, allow_blank: false, presence: true
 
   scope :published, -> { where(published: true) }

@@ -2,7 +2,9 @@
 
 RSpec.describe 'Trumbowyg editor', type: :system do
   let(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe', age: 30) }
-  let(:post) { Post.create!(title: 'Test', author: author, description: 'Some content...') }
+  let(:post) do
+    Post.create!(title: 'Test', author: author, summary: 'Some content!', description: 'Some content...')
+  end
 
   before do
     post
@@ -24,24 +26,24 @@ RSpec.describe 'Trumbowyg editor', type: :system do
       expect(page).to have_css('#post_description_input .trumbowyg-editor', text: 'Some content...')
     end
 
-    it 'adds some text to the description' do
+    it 'adds some text to the summary' do
       visit "/admin/posts/#{post.id}/edit"
 
-      find('#post_description_input .trumbowyg-editor').base.send_keys('more text')
+      find('#post_summary_input .trumbowyg-editor').base.send_keys('More text')
       find('[type="submit"]').click
 
       expect(page).to have_content('was successfully updated')
-      expect(post.reload.description).to eq '<p>Some content...more text</p>'
+      expect(post.reload.summary).to eq '<p>Some content!More text</p>'
     end
 
-    it 'adds right aligned text to the description' do
+    it 'adds right aligned text to the summary' do
       visit "/admin/posts/#{post.id}/edit"
 
-      find('#post_description_input .trumbowyg-button-pane .trumbowyg-justifyRight-button').click
+      find('#post_summary_input .trumbowyg-button-pane .trumbowyg-justifyRight-button').click
       find('[type="submit"]').click
 
       expect(page).to have_content('was successfully updated')
-      expect(post.reload.description).to match /text-align: right.*Some content/
+      expect(post.reload.summary).to match /text-align: right.*Some content/
     end
   end
 
